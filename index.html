@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>Quick Response</title>
+	<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic|Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic|Droid+Sans+Mono|Source+Code+Pro:200,300,400,500,600,700,900|Cousine:400,700,700italic,400italic|Inconsolata:400,700|Open+Sans:300italic,400italic,600italic,700italic,800italic,400,800,700,600,300|Maven+Pro:400,900,700,500|Karla:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+	<script type="text/javascript" src="scripts/shCore.js"></script>
+	<script type="text/javascript" src="scripts/shBrushJScript.js"></script>
+	<link type="text/css" rel="stylesheet" href="styles/shCoreFadeToGrey.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<style>
+		html{
+			height: 100%;
+		}
+		body {
+			margin: 0;
+			font-family: 'Karla';
+			background: white;
+			color:black;
+			text-rendering:optimizeLegibility;
+			font-weight: 300;
+			/*border:25px solid black;*/
+			background: white;
+			height: 100%;
+		}
+		main {
+			display: table;
+			height: 100%;
+			margin: auto;
+
+		}
+		.half h1 {
+			font-size: 55px;
+			position: absolute;
+			z-index: 9000;
+			font-weight: 300;
+			text-rendering:optimizeLegibility;
+			top:0px;
+		}
+		.left h1 {
+			text-align: right;
+			color:black;
+			right:8px;
+		}
+		.right h1 {
+			text-align: left;
+			color:white;
+			left:8px;
+		}
+		.half {
+			width:50%;
+			height:100%;
+			float:left;
+			position: relative;		
+		}
+		.left {
+			background: white;
+		}
+		.right {
+			background: black;
+		}
+		.right div:first-child {
+			height: 100%;
+			display: table;
+		}
+		.half .inner {
+			display: table;
+			margin: auto;
+			height: 100%;
+		}
+		.qr {
+			width:100%;
+			display: table-cell;
+			vertical-align: middle;
+		}
+		.qr img {
+			width:100%;
+			max-width: 547px;
+		}
+		.left:hover {
+			/*cursor: pointer;
+			-webkit-filter:invert(100%);*/
+		}
+		xmp {
+			color:white;
+			font-size:12px;
+			overflow:hidden;
+		}
+	</style>
+</head>
+<body>
+	<div class="left half">
+		<h1>QUICK</h1>
+		<div class="inner">
+			<div class="qr">
+				<img src="https://chart.googleapis.com/chart?chs=547x547&cht=qr&chl=http://quickresponse.tumblr.com&chld=L|1&choe=UTF-8"/>
+			</div>
+		</div>
+	</div>
+	<div class="right half">
+		<h1>RESPONSE</h1>
+		<div class="inner">
+			<pre class="brush: js;">
+    			<div class="left half">
+					<div class="inner">
+						<div class="qr">					
+						</div>
+					</div>
+				</div>
+			</pre>
+		</div>
+	</div>
+</body>
+</html>
