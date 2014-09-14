@@ -1,0 +1,97 @@
+@import url(http://fonts.googleapis.com/css?family=Karla:700,400,400italic,700italic);
+html {
+	font-family: 'Karla', sans-serif;
+	text-rendering:optimizeLegibility;
+	height: 100%;
+	overflow: hidden;
+}
+body {
+	margin: 0;
+	height: 100%;
+}
+#front {
+	opacity: 1;
+	background: black;
+	transition: opacity 1000ms ease-in-out;
+	-o-transition: opacity 1000ms ease-in-out;
+	-moz-transition: opacity 1000ms ease-in-out;
+	-webkit-transition: opacity 1000ms ease-in-out;
+}
+header#front  {
+	display: table;
+	margin: auto;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top:0;
+	left:0;
+}
+header#front .title {
+	position: absolute;
+	z-index: 9999;
+}
+header#front .title.top {
+	top:0px !important;
+	-webkit-transition: top 500ms cubic-bezier(1.000, 0, 0.750, 0.750); /* older webkit */
+	-webkit-transition: top 500ms cubic-bezier(1.000, -0.275, 0.750, 0.750); 
+    -moz-transition: top 500ms cubic-bezier(1.000, -0.275, 0.750, 0.750); 
+    -o-transition: top 500ms cubic-bezier(1.000, -0.275, 0.750, 0.750); 
+    transition: top 500ms cubic-bezier(1.000, -0.275, 0.750, 0.750); /* custom */
+	-webkit-transition-timing-function: cubic-bezier(1.000, 0, 0.750, 0.750); /* older webkit */
+	-webkit-transition-timing-function: cubic-bezier(1.000, -0.275, 0.750, 0.750); 
+    -moz-transition-timing-function: cubic-bezier(1.000, -0.275, 0.750, 0.750); 
+    -o-transition-timing-function: cubic-bezier(1.000, -0.275, 0.750, 0.750); 
+    transition-timing-function: cubic-bezier(1.000, -0.275, 0.750, 0.750); /* custom */
+}
+header#front .title h1.top {
+ 	float:left;
+ 	width: auto;
+ 	font-size: 30px;
+ 	line-height: 30px;
+ 	z-index: 999999;
+ 	color:black;
+}
+header#front .title h1.top:after {
+	content: '\00a0';
+}
+header#front .title h1.top:last-child:after {
+	content: '' !important;
+}
+header#front .title * {
+	opacity: 0;
+}
+header#front h1 {
+	width: 100%;
+	font-size: 80px;
+	line-height: 80px;
+	color:white;
+	font-weight: 400;
+	text-align: center;
+	margin: 0;
+	letter-spacing: 0px;
+}
+header#front img {
+	width: 80px;
+	display: table;
+	margin: 40px auto 0 auto;
+}
+header#front .title.top img{
+	display: none;
+	
+}
+header#front img:hover {
+	cursor: pointer;
+}
+canvas {
+	opacity: 0;
+	position: fixed;
+	top:0;
+	left:0;
+	display: table;
+	image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -o-crisp-edges;
+    image-rendering: pixelated;
+    -ms-interpolation-mode: nearest-neighbor;
+}
