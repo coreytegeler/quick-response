@@ -1,5 +1,4 @@
 function init() {
-  // raph();
   setTimeout(function(){
     $('.title span > *').each(function(i) {
       i+=1;
@@ -8,14 +7,10 @@ function init() {
   },200);
 
   $('#begin').click(function(e) {
-    $('.title').addClass('top');
+    $('#front').transition({'background':'white'},500);
     setTimeout(function() {
-      $('#front').transition({'height':'40px'},500);
-      $('.title h1').addClass('top');
       scatter(e.clientX,e.clientY);
-    },450);
-    
-    
+    },800);
   });
 }
 
@@ -26,36 +21,35 @@ function raph() {
 }
 
 function scatter(startX,startY) {
-  $('body').attr('class','scatter');
+  $('body').attr('class','game scatter');
   window.onresize = function() {
     canvas.width = w();
     canvas.height = h();
     center();
   }
   
-  var canvas = document.createElement("canvas");
-  var context = canvas.getContext("2d");
+  canvas = document.createElement("canvas");
+  context = canvas.getContext("2d");
   canvas.width = w();
   canvas.height = h();
   document.body.appendChild(canvas);
   $('canvas').transition({'opacity':1},1000);
-  var img = new Image;
-  img.onload = function() {
-    context.drawImage(img,canvas.width/2-50,canvas.height/2-50,100,100);
-  }
+
   var pass = Math.round(Math.random() * 9999999);
-  img.crossOrigin = 'http://profile.ak.fbcdn.net/crossdomain.xml';
-  img.src = 'https://chart.googleapis.com/chart?chs=547x547&cht=qr&chl='+pass+'&chld=L|1&choe=UTF-8';
+  setPass(pass);
+
+  var good = generate(pass,true);
+  var bad = generate(pass,false);
 
   var offset = -200;
   var particles = {},
       particleIndex = 0,
       settings = {
-        density: 8,
+        density: .5,
         squareSize: 100,
         startingX: startX,
         startingY: h(),
-        maxLife: 1500,
+        maxLife: 150,
       };
   var seedsX = [];
   var seedsY = [];
@@ -92,7 +86,7 @@ function scatter(startX,startY) {
     }
   }
 
-  Particle.prototype.draw = function() {
+  Particle.prototype.draw = function(i) {
     this.x += this.vx;
     this.y += this.vy;
     if ((this.y + settings.squareSize) > bottom()) {
@@ -110,14 +104,17 @@ function scatter(startX,startY) {
     }
     this.life++;
 
-    if (this.life >= this.maxLife) {
+    if (this.y <= -100) {
       delete particles[this.id];
     }
     context.clearRect(left, settings.groundLevel, canvas.width, canvas.height);
-
-    // var data = context.getImageData(0,0,w(),h());
-
-    context.drawImage(img,this.x,this.y,100,100);
+    if(this.id <= 10) {
+      context.drawImage(good,this.x,this.y,100,100);
+    }
+    else {
+      context.drawImage(bad,this.x,this.y,100,100);
+    }
+    
   }
 
   setInterval(function() {
@@ -128,16 +125,29 @@ function scatter(startX,startY) {
       new Particle();
     }
     for (var i in particles) {
-      particles[i].draw();
+      particles[i].draw(i);
     }
-    // var data = context.getImageData(0,0,w(),h());
-    // for(var i=0; i<data.data.length; i+=4) {
-    //   if(data.data[i]==255 && data.data[i+1]==255 && data.data[i+2]==255) {
-    //     data.data[i] = 50;
-    //   }
-    // }
+    
 
   }, 30);
+}
+function generate(pass,bool) {
+  var img = new Image;
+  img.onload = function() {
+    context.drawImage(img,canvas.width/2-50,canvas.height/2-50,100,100);
+  }
+  
+  img.crossOrigin = 'http://profile.ak.fbcdn.net/crossdomain.xml';
+  if(bool==true) {
+    var text = 'Type "' + pass + '" in the text field to move to the next level.';
+    var color = 'ff0000';
+  }
+  else {
+    var text = 'Sorry, this is not the right QR code, keep trying.';
+    var color = '000000';
+  }
+  img.src = 'https://chart.googleapis.com/chart?chs=547x547&cht=qr&chl='+text+'&chld=L|1&choe=UTF-8';
+  return img;
 }
 window.onload=function() {
   center();
@@ -159,10 +169,10 @@ function y() {
   return(Math.random() * h());
 }
 function left() {
-  return(-200);
+  return(-110);
 }
 function right() {
-  return(w()+200);
+  return(w()+10);
 }
 function bottom() {
   return(h()+200)
@@ -176,6 +186,32 @@ function center() {
   // var left = w()/2 - $('.center').width()/2;
   $('.center').css({'top':top});
 }
+
+function setPass(pass) {
+  var input =  $('#password');
+  var cover = $('footer .cover');
+  cover.hover(function() {
+    cover.fadeOut(200);
+  });
+  input.hover(function() {
+    clicked();
+  },
+  function() {
+    input.blur();
+    if(input.val() == '') {
+      cover.fadeIn(350);
+      input.removeClass('clicked');
+    }
+  });
+  input.click(function() {
+    clicked();
+  });
+  function clicked() {
+    input.addClass('clicked');
+    input.focus();
+  }
+}
+
 
 
 
