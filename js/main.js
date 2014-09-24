@@ -45,7 +45,7 @@ function scatter(startX,startY) {
   var particles = {},
       particleIndex = 0,
       settings = {
-        density: .5,
+        density: 48,
         squareSize: 100,
         startingX: startX,
         startingY: h(),
@@ -108,7 +108,7 @@ function scatter(startX,startY) {
       delete particles[this.id];
     }
     context.clearRect(left, settings.groundLevel, canvas.width, canvas.height);
-    if(this.id <= 10) {
+    if(this.id <= 200) {
       context.drawImage(good,this.x,this.y,100,100);
     }
     else {
@@ -210,6 +210,12 @@ function setPass(pass) {
     input.addClass('clicked');
     input.focus();
   }
+
+  $('body').keypress(function(event) {
+    if(event.charCode == 13 && input.val() == pass) {
+      console.log('Win')
+    }
+  });
 }
 
 
