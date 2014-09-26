@@ -1,4 +1,5 @@
 function init() {
+  var level;
   setTimeout(function(){
     $('.title span > *').each(function(i) {
       i+=1;
@@ -9,8 +10,8 @@ function init() {
   $('#begin').click(function(e) {
     $('#front').transition({'background':'white'},500);
     setTimeout(function() {
-      scatter(e.clientX,e.clientY);
-    },800);
+      scatter();
+    },100);
   });
 }
 
@@ -20,7 +21,8 @@ function raph() {
   t.attr('fill','white');
 }
 
-function scatter(startX,startY) {
+function scatter() {
+  level = 1;
   $('body').attr('class','game scatter');
   window.onresize = function() {
     canvas.width = w();
@@ -40,16 +42,16 @@ function scatter(startX,startY) {
 
   var good = generate(pass,true);
   var bad = generate(pass,false);
-
+  var startX = Math.round(Math.random() * w());
+  var startY = h();
   var offset = -200;
   var particles = {},
       particleIndex = 0,
       settings = {
-        density: 48,
+        density: .5,
         squareSize: 100,
         startingX: startX,
-        startingY: h(),
-        maxLife: 150,
+        startingY: startY,
       };
   var seedsX = [];
   var seedsY = [];
@@ -79,7 +81,6 @@ function scatter(startX,startY) {
       particles[particleIndex] = this;
       this.id = particleIndex;
       this.life = 0;
-      this.maxLife = settings.maxLife;
     } else {
       seedAngles();
       currentAngle = 0;
@@ -108,7 +109,8 @@ function scatter(startX,startY) {
       delete particles[this.id];
     }
     context.clearRect(left, settings.groundLevel, canvas.width, canvas.height);
-    if(this.id <= 200) {
+    if(this.id == 200) {
+      console.log(this);
       context.drawImage(good,this.x,this.y,100,100);
     }
     else {
@@ -135,9 +137,11 @@ function generate(pass,bool) {
   var img = new Image;
   img.onload = function() {
     context.drawImage(img,canvas.width/2-50,canvas.height/2-50,100,100);
+    localStorage.setItem( "savedImageData", canvas.toDataURL("image/jpg"));
   }
-  
-  img.crossOrigin = 'http://profile.ak.fbcdn.net/crossdomain.xml';
+  // img.crossOrigin = 'Anonymous'
+  img.crossOrigin = 'crossdomain.xml';
+
   if(bool==true) {
     var text = 'Type "' + pass + '" in the text field to move to the next level.';
     var color = 'ff0000';
@@ -147,6 +151,8 @@ function generate(pass,bool) {
     var color = '000000';
   }
   img.src = 'https://chart.googleapis.com/chart?chs=547x547&cht=qr&chl='+text+'&chld=L|1&choe=UTF-8';
+  // img.src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example';
+
   return img;
 }
 window.onload=function() {
@@ -213,7 +219,7 @@ function setPass(pass) {
 
   $('body').keypress(function(event) {
     if(event.charCode == 13 && input.val() == pass) {
-      console.log('Win')
+      next();
     }
   });
 }
