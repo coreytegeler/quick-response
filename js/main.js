@@ -37,7 +37,7 @@ function scatter() {
   document.body.appendChild(canvas);
   $('canvas').transition({'opacity':1},1000);
 
-  var pass = Math.round(Math.random() * 9999999);
+  var pass = Math.round(Math.random() * 99999);
   setPass(pass);
 
   var good = generate(pass,true);
@@ -48,8 +48,7 @@ function scatter() {
   var particles = {},
       particleIndex = 0,
       settings = {
-        density: .5,
-        squareSize: 100,
+        density: level/50000,
         startingX: startX,
         startingY: startY,
       };
@@ -62,8 +61,8 @@ function scatter() {
     seedsX = [];
     seedsY = [];
     for (var i = 0; i < maxAngles; i++) {
-      seedsX.push(Math.random() * 50 - Math.random() * 80);
-      seedsY.push(Math.random() * 50 - Math.random() * 80);
+      seedsX.push(Math.random() * 40 - Math.random() * 50);
+      seedsY.push(Math.random() * 40 - Math.random() * 50);
     }
   }
   seedAngles();
@@ -81,6 +80,18 @@ function scatter() {
       particles[particleIndex] = this;
       this.id = particleIndex;
       this.life = 0;
+
+      var rand = Math.round(Math.random() * 100);
+      if(rand == 1) {
+        this.is = good;
+        this.size = 150;
+      }
+      else {
+        this.is = bad;
+        this.size = 100;
+      }
+
+
     } else {
       seedAngles();
       currentAngle = 0;
@@ -90,32 +101,31 @@ function scatter() {
   Particle.prototype.draw = function(i) {
     this.x += this.vx;
     this.y += this.vy;
-    if ((this.y + settings.squareSize) > bottom()) {
+    if ((this.y + this.size) > bottom()) {
       this.vy *= -0.6;
       this.vx *= 0.75;
-      this.y = bottom() - settings.squareSize;
+      this.y = bottom() - this.size;
     }
-    if (this.x - (settings.squareSize) <= left()) {
+    if (this.x - (this.size) <= left()) {
       this.vx *= -1;
-      this.x = left() + (settings.squareSize);
+      this.x = left() + (this.size);
     }
-    if (this.x + (settings.squareSize) >= right()) {
+    if (this.x + (this.size) >= right()) {
       this.vx *= -1;
-      this.x = right() - settings.squareSize;
+      this.x = right() - this.size;
     }
     this.life++;
 
     if (this.y <= -100) {
       delete particles[this.id];
     }
-    context.clearRect(left, settings.groundLevel, canvas.width, canvas.height);
-    if(this.id == 200) {
-      console.log(this);
-      context.drawImage(good,this.x,this.y,100,100);
-    }
-    else {
-      context.drawImage(bad,this.x,this.y,100,100);
-    }
+
+    var date = new Date();
+    var sec = date.getSeconds();
+
+    
+
+    context.drawImage(this.is,this.x,this.y,this.size,this.size);
     
   }
 
