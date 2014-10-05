@@ -1,5 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Karla:700,400,400italic,700italic);
 @import url(http://fonts.googleapis.com/css?family=Inconsolata:700,400);
+@import url(http://fonts.googleapis.com/css?family=Playfair+Display:400,700,900,400italic,700italic,900italic);
 html {
 	/*font-family: 'Karla', sans-serif;*/
 	font-family: 'Inconsolata', sans-serif;
@@ -17,7 +18,7 @@ body {
 	margin: auto;
 }
 .start #front {
-	background: black;
+	background: white;
 	opacity: 1;
 	z-index: 999;
 	display: table;
@@ -28,28 +29,29 @@ body {
 	top:0;
 	left:0;
 }
-#front {
+.game #front {
 	display: none;
 }
 .start #front .title {
 	position: absolute;
 	width: 100%;
 }
-.start #front .title span * {
-	opacity: 0;
-}
-.start #front .title span {
+.start #front .title .box {
 	display: table;
-	margin: 10px auto;
+	margin: auto;
+	border: 5px solid black;
+	padding: 10px;
+	opacity: 0;
 }
 .start #front h1 {
 	width: 100%;
 	font-size: 20px;
-	line-height: 37px;
-	color:white;
+	line-height: 36px;
+	color:black;
 	font-weight: 700;
 	text-align: center;
 	margin: 0;
+	text-transform: uppercase;
 }
 .start #front h1:nth-child(1) {
 	letter-spacing: 15px;
@@ -85,16 +87,10 @@ header  {
 	z-index: 9999;
 	position: absolute;
 	/*height: calc(100% - 30px);*/
-	width: 250px;
-	overflow: hidden;
-	top:10px !important;
-	left:10px;
-    background: rgba(255,255,255,1);
-    border:5px solid black;
+	overflow-x: hidden;
+	top:0px !important;
+	left:0px;
     /*border-top:10px solid black;*/
-    box-shadow: 0px 0px 55px 20px rgba(255,255,255,.6);
-    -moz-box-shadow: 0px 0px 55px 20px rgba(255,255,255,.6);
-    -webkit-box-shadow: 0px 0px 55px 20px rgba(255,255,255,.6);
     display: block;
     -webkit-transform:translateX(-270px);
 	-moz-transform:translateX(-270px);
@@ -105,7 +101,7 @@ header  {
 	-moz-transition: -moz-transform 300ms ease-in-out;
 	-webkit-transition: -webkit-transform 300ms ease-in-out;
 	opacity: 0;
-	padding-top:10px;
+	/*padding-top:10px;*/
 }
 .game header {
 	opacity: 1;
@@ -114,20 +110,40 @@ header  {
 	-o-transform: translateX(0px);
 	transform: translateX(0px);
 }
+header .box {
+	display:block;
+	width: 200px;
+	background: rgba(255,255,255,1);
+    border:5px solid black;
+    margin:10px;
+    padding:10px;
+    /*box-shadow: 0px 0px 55px 20px rgba(255,255,255,.6);
+    -moz-box-shadow: 0px 0px 55px 20px rgba(255,255,255,.6);
+    -webkit-box-shadow: 0px 0px 55px 20px rgba(255,255,255,.6);*/
+}
+header .toolbar {
+	position: absolute;
+	top:0;
+	left: 0;
+}
+header .toolbar .min {
+	width: 10px;
+	height: 10px;
+	display: block;
+}
 header .title {
-	width:100%;
+	height:200px;
 }
 header .title h1 {
 	display: table;
 	margin: auto;
  	width: 100%;
-	font-size: 20px;
-	line-height: 33px;
+	font-size: 27px;
 	color:black;
 	font-weight: 700;
 	text-align: center;
-	margin: 0;
-	/*letter-spacing: 5px;*/
+	text-transform: uppercase;
+	margin: 0 0 14px 0;
 }
 header .title h1:nth-child(1) {
 	letter-spacing: 15px;
@@ -145,33 +161,30 @@ header .title h1:nth-child(5) {
 	letter-spacing: 12px;
 }
 header .instructions {
-	margin:10px auto;
 	font-style: italic;
-	width:80%;
-	display: table;
 }
 header .instructions ul {
 	list-style: none;
 	padding: 0;
+	margin: 0;
 }
 header .instructions ul li {
 	margin-bottom: 8px;
+	font-family: 'Inconsolata';
+	font-weight: 700;
+	font-size:19px;
+}
+header .instructions ul li:last-child {
+	margin:0;
 }
 .field {
-	display: table;
-	width: 100%;
+	
 }
-.field input#password {
-	width:140px;
-	margin: 0 auto 10px auto;
-	padding:0;
-	display: table;
+input.field {
 	background: white;
 	color:black;
-	border:0;
-	border-bottom:5px solid black;
-	font-size: 40px;
-	font-weight: 400;
+	font-size: 57px;
+	font-weight: 700;
 	text-align: center;
 	letter-spacing: 0px;
 	outline: none;
@@ -179,30 +192,26 @@ header .instructions ul li {
 	-moz-transition: opacity 400ms ease-in-out;
 	-webkit-transition: opacity 400ms ease-in-out;
 }
-.field input#password:hover {
+input.field:hover {
 	opacity:1;
 }
-.field .cover {
-	position:absolute;
-	bottom: 0;
-	left:0;
-	width: 100%;
-	height: 40px;
-	background: white;
-	z-index: 1000;
-	font-size: 20px;
-	font-weight: 400;
+.input.box {
+	/*width:230px;*/
+	color:black;
+	/*font-size: 60px;
+	font-weight: 700;*/
 	text-align: center;
 	letter-spacing: 0px;
-	display: table;
+	height: 40px;
+	/*background: transparent !important;
+	border: none !important;
+	padding: 0 !important;*/
 }
-.field .cover span {
-	vertical-align: middle;
-	display: table-cell;
-	text-align: center;
-	opacity: 1;
+.emoji {
+    width: 39px;
+    height: auto;
+    display: inline-block;
 }
-
 canvas {
 	opacity: 0;
 	position: fixed;
