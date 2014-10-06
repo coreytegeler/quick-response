@@ -9,27 +9,47 @@ function init() {
         'opacity': 1
     });
     $('#begin').click(function(e) {
-        $('#front').transition({
-            'background': 'white'
-        }, 500);
+        buildBox();
+        stretchCanvas();
+        scatter(level);
         setTimeout(function() {
-            $('body').attr('class', 'game scatter');
-            canvas = document.createElement("canvas");
-            context = canvas.getContext("2d");
-            canvas.width = w();
-            canvas.height = h();
-            document.body.appendChild(canvas);
-            $('canvas').transition({
-                'opacity': 1
-            }, 1000);
-            window.onresize = function() {
-                canvas.width = w();
-                canvas.height = h();
-                center();
-            }
-            scatter(level);
-        }, 100);
+          $('canvas').fadeIn(100); 
+        },400);
     });
+}
+function buildBox() {
+  $('.box:not(:first-child)').each(function() {
+    var y = $(this).prev().outerHeight() + $(this).prev().offset().top;
+    console.log(y);
+    $(this).css({'top':y});
+  })
+
+  $('.box').draggable({
+    start: function(e) {
+      // var img = $(this).data('qr');
+      // $(this).css({backgroundImage: "url('"+img+"')", "color":"transparent"});
+    },
+    drag: function(e) {
+      // var img = $(this).data('qr');
+      // $(this).css({backgroundImage: "url('"+img+"')", "color":"transparent"});
+    },
+    stop: function(e) {
+      // $(this).css({backgroundImage: "none", "color":"black"});
+    }
+  });
+}
+function stretchCanvas() {
+  $('body').attr('class', 'game scatter');
+  canvas = document.createElement("canvas");
+  context = canvas.getContext("2d");
+  canvas.width = w();
+  canvas.height = h();
+  document.body.appendChild(canvas);
+  window.onresize = function() {
+      canvas.width = w();
+      canvas.height = h();
+      center();
+  }
 }
 
 function raph() {

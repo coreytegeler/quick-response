@@ -7,6 +7,12 @@ html {
 	text-rendering:optimizeLegibility;
 	height: 100%;
 	overflow: hidden;
+	text-rendering:optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-o-font-smoothing: antialiased;
+	font-smoothing: antialiased;
+}
 }
 body {
 	margin: 0;
@@ -66,7 +72,7 @@ body {
 	letter-spacing: 25px;
 }
 .start #front h1:nth-child(5) {
-	letter-spacing: 12px;
+	letter-spacing: 9px;
 }
 #begin:hover {
 	cursor: pointer;
@@ -87,7 +93,6 @@ header  {
 	z-index: 9999;
 	position: absolute;
 	/*height: calc(100% - 30px);*/
-	overflow-x: hidden;
 	top:0px !important;
 	left:0px;
     /*border-top:10px solid black;*/
@@ -101,6 +106,8 @@ header  {
 	-moz-transition: -moz-transform 300ms ease-in-out;
 	-webkit-transition: -webkit-transform 300ms ease-in-out;
 	opacity: 0;
+	width:250px;
+	height: 100%;
 	/*padding-top:10px;*/
 }
 .game header {
@@ -114,12 +121,20 @@ header .box {
 	display:block;
 	width: 200px;
 	background: rgba(255,255,255,1);
-    border:5px solid black;
+    border:4px solid black;
     margin:10px;
     padding:10px;
+    background-position: center !important;
+    background-size: 40% !important;
+    background-repeat: no-repeat !important;
+    position: fixed;
     /*box-shadow: 0px 0px 55px 20px rgba(255,255,255,.6);
     -moz-box-shadow: 0px 0px 55px 20px rgba(255,255,255,.6);
     -webkit-box-shadow: 0px 0px 55px 20px rgba(255,255,255,.6);*/
+}
+header .box:hover  {
+	/*color: transparent !important;*/
+	cursor: move;
 }
 header .toolbar {
 	position: absolute;
@@ -139,7 +154,6 @@ header .title h1 {
 	margin: auto;
  	width: 100%;
 	font-size: 27px;
-	color:black;
 	font-weight: 700;
 	text-align: center;
 	text-transform: uppercase;
@@ -158,10 +172,10 @@ header .title h1:nth-child(4) {
 	letter-spacing: 25px;
 }
 header .title h1:nth-child(5) {
-	letter-spacing: 12px;
+	letter-spacing: 8px;
 }
 header .instructions {
-	font-style: italic;
+	
 }
 header .instructions ul {
 	list-style: none;
@@ -177,35 +191,33 @@ header .instructions ul li {
 header .instructions ul li:last-child {
 	margin:0;
 }
-.field {
-	
+.field.box {
+	padding:0 !important;
+	display: block;
+	overflow: hidden;
+	width: 220px;
 }
-input.field {
+.field.box input {
+	display: table;
+	width: 220px;
+	height: 60px;
 	background: white;
 	color:black;
 	font-size: 57px;
 	font-weight: 700;
+	letter-spacing: 0px;
 	text-align: center;
 	letter-spacing: 0px;
 	outline: none;
+	border: 0;
+	margin-bottom:8px;
 	transition: opacity 400ms ease-in-out;
 	-moz-transition: opacity 400ms ease-in-out;
 	-webkit-transition: opacity 400ms ease-in-out;
 }
-input.field:hover {
+.field input:hover {
 	opacity:1;
-}
-.input.box {
-	/*width:230px;*/
-	color:black;
-	/*font-size: 60px;
-	font-weight: 700;*/
-	text-align: center;
-	letter-spacing: 0px;
-	height: 40px;
-	/*background: transparent !important;
-	border: none !important;
-	padding: 0 !important;*/
+	color:black !important;
 }
 .emoji {
     width: 39px;
@@ -213,7 +225,6 @@ input.field:hover {
     display: inline-block;
 }
 canvas {
-	opacity: 0;
 	position: fixed;
 	top:0;
 	left:0;
@@ -224,4 +235,5 @@ canvas {
     image-rendering: -o-crisp-edges;
     image-rendering: pixelated;
     -ms-interpolation-mode: nearest-neighbor;
+    display: none;
 }
