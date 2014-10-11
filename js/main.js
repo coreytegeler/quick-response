@@ -35,25 +35,13 @@ function buildBox() {
     }
   });
 
-  $('.box').click(function() {
-    var w = $(this).width();
-    var h = $(this).height();
-    var scale = 2/10;
-    var top = h/2;
-    var left = w/2;
-
-    if($(this).hasClass('hide')) {
-      $(this).draggable( "option", "cursorAt", { 
-        left: left,
-        top: top
-      });
-    }
-
-     $(this).toggleClass('hide');
+  $('.close').click(function() {
+    $(this).parent().addClass('hide');
+    $('.hide').click(function() {
+      $(this).removeClass('hide'); 
+    }); 
   });
-
-
-
+  
 }
 function checkSides(ui) {
   if(ui instanceof jQuery) {
@@ -113,10 +101,10 @@ function raph() {
 }
 
 function scatter(level) {
+  console.log('Level: ' + level)
     var pass = Math.round(Math.random() * 99999);
+    console.log('Password: ' + pass);
     setPass(pass);
-    var good = generate(pass, true);
-    var bad = generate(pass, false);
     var startX = Math.round(Math.random() * w());
     var startY = h();
     var particles = {},
@@ -151,13 +139,15 @@ function scatter(level) {
             particleIndex++;
             particles[particleIndex] = this;
             this.id = particleIndex;
-            var rand = Math.round(Math.random() * 15+level);
+            this.size = 100;
+            var rand = Math.round(Math.random() * 5+level);
+            console.log(rand);
             if (rand == 1) {
+                var good = generate(pass, true);
                 this.is = good;
-                this.size = 150;
             } else {
-                this.is = bad;
-                this.size = 100;
+               var bad = generate(pass, false);
+               this.is = bad;
             }
         } else {
             seedAngles();
@@ -212,21 +202,24 @@ function scatter(level) {
 
 function generate(pass, bool) {
     var img = new Image;
-    img.onload = function() {
-      context.drawImage(img, canvas.width / 2 - 50, canvas.height / 2 - 50, 100, 100);
-      localStorage.setItem("savedImageData", canvas.toDataURL("image/jpg"));
-    }
-
-    img.crossOrigin = 'crossdomain.xml';
-
     if (bool == true) {
-      var text = 'Type "' + pass + '" in the text field to move to the next level.';
+      var text = 'Type ' + pass + ' in the text field to move to the next level.';
       var color = 'ff0000';
+      img.src = "http://api.qrtag.net/qrcode/380/20/ff0000/"+text;
     } else {
-      var text = 'Sorry, this is not the right QR code, keep trying.';
-      var color = '000000';
+      $.getJSON("/ads.json", function(data) {
+        var urls = [];
+        $.each(data.ads, function(key, val) {
+          urls.push(val);
+        });
+       var index = Math.round(Math.random()*(urls.length-1));
+       var url = urls[index].url;
+       var color = '000000';
+       img.src = 'https://chart.googleapis.com/chart?chs=547x547&cht=qr&chl=' + url + '&chld=L|1&choe=UTF-8';
+      });
+      img.crossOrigin = 'http://profile.ak.fbcdn.net/crossdomain.xml';
     }
-    img.src = 'https://chart.googleapis.com/chart?chs=547x547&cht=qr&chl=' + text + '&chld=L|1&choe=UTF-8';
+    
     // img.src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example';
 
     return img;
@@ -305,7 +298,6 @@ function setPass(pass) {
     var isNumber = numbers.indexOf(key);
     if(isNumber < 0 ) {
       if (key == 13) {
-        console.log('!!');
         if($('#password').val() == pass) {
           $('.input').addClass('right');
           setTimeout(function() {

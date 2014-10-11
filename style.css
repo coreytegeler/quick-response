@@ -134,39 +134,45 @@ header .box {
     /*box-shadow: 0px 0px 55px 20px rgba(255,255,255,.6);
     -moz-box-shadow: 0px 0px 55px 20px rgba(255,255,255,.6);
     -webkit-box-shadow: 0px 0px 55px 20px rgba(255,255,255,.6);*/
-    transition: transform 400ms cubic-bezier(.68,-0.39,.34,1.3);
-    -o-transition: transform 400ms cubic-bezier(.68,-0.39,.34,1.3);
-    -moz-transition: transform 400ms cubic-bezier(.68,-0.39,.34,1.3);
-    -webkit-transition: transform 400ms cubic-bezier(.68,-0.39,.34,1.3);
+    transition: width 300ms cubic-bezier(.68,-0.39,.34,1.3), height 300ms cubic-bezier(.68,-0.39,.34,1.3);
+    -o-transition: width 300ms cubic-bezier(.68,-0.39,.34,1.3), height 300ms cubic-bezier(.68,-0.39,.34,1.3);
+    -moz-transition: width 300ms cubic-bezier(.68,-0.39,.34,1.3), height 300ms cubic-bezier(.68,-0.39,.34,1.3);
+    -webkit-transition: width 300ms cubic-bezier(.68,-0.39,.34,1.3), height 300ms cubic-bezier(.68,-0.39,.34,1.3);
 }
 header .box:hover  {
 	/*color: transparent !important;*/
 	cursor: move;
 }
 header .box.hide {
-	transform:scale(.2);
-	-o-transform:scale(.2);
-	-moz-transform:scale(.2);
-	-webkit-transform:scale(.2);
-/*	width: 5px;
-	height: 5px;
+	margin:20px;
+	width: 0px;
+	height: 0px;
 	background: black;
-	padding:5px;
+	padding:0px;
 	overflow: hidden;
 	box-shadow: 0 0 0px 5px white, 0 0 0px 10px black;
 	-o-box-shadow: 0 0 0px 5px white, 0 0 0px 10px black;
 	-moz-box-shadow: 0 0 0px 5px white, 0 0 0px 10px black;
-	-webkit-box-shadow: 0 0 0px 5px white, 0 0 0px 10px black;*/
+	-webkit-box-shadow: 0 0 0px 5px white, 0 0 0px 10px black;
+	color: transparent !important;
 }
-header .toolbar {
+header .close {
+	opacity: 1;
 	position: absolute;
-	top:0;
-	left: 0;
+	top:-8px;
+	left: -8px;
+	width:13px;
+	height:13px;
+	border:3px solid black;
+	border-radius: 100%;
+	background: white;
+	transition:all 100ms ease-in-out;
+	-o-transition:all 100ms ease-in-out;
+	-moz-transition:all 100ms ease-in-out;
+	-webkit-transition:all 100ms ease-in-out;
 }
-header .toolbar .min {
-	width: 10px;
-	height: 10px;
-	display: block;
+header .box.hide .close {
+	opacity: 0;
 }
 header .title {
 	height:200px;
@@ -256,11 +262,6 @@ header .instructions ul li:last-child {
 .input.wrong {
 	color:red;
 	border-color:red;
-}
-.emoji {
-    width: 39px;
-    height: auto;
-    display: inline-block;
 }
 canvas {
 	position: fixed;
