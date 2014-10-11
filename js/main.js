@@ -25,8 +25,10 @@ function buildBox() {
 
   $('.box').draggable({
     start: function(event, ui) {
+
     },
     drag: function(event, ui) {
+
     },
     stop: function(event, ui) {
       checkSides(ui);
@@ -34,7 +36,20 @@ function buildBox() {
   });
 
   $('.box').click(function() {
-    $(this).toggleClass('hide');
+    var w = $(this).width();
+    var h = $(this).height();
+    var scale = 2/10;
+    var top = h/2;
+    var left = w/2;
+
+    if($(this).hasClass('hide')) {
+      $(this).draggable( "option", "cursorAt", { 
+        left: left,
+        top: top
+      });
+    }
+
+     $(this).toggleClass('hide');
   });
 
 
