@@ -2,7 +2,6 @@ window.onload = function() {
     center();
     init();
 }
-
 function init() {
     level = 1;
     $('#front .box').transition({
@@ -102,7 +101,7 @@ function raph() {
     var t = paper.rect(0, 0, 70, 10);
     t.attr('fill', 'white');
 }
-
+var end = false;
 function scatter(level) {
     console.log('Level: ' + level);
     var pass = Math.round(Math.random() * 99999);
@@ -185,12 +184,9 @@ function scatter(level) {
     }, 30);
 
     setInterval(function() {
-        // for (var i = 0; i < settings.density; i++) {
         new Particle();
-        // }
     }, (400 - (level * 10)));
 }
-
 function generate(pass, bool) {
     var img = new Image;
     if (bool == true) {
@@ -247,62 +243,67 @@ function center() {
   } else {
       var top = h() / 2 - $('.center').height() / 2;
   }
-  // var left = w()/2 - $('.center').width()/2;
   $('.center').css({
       'top': top
   });
 }
 
+function isDragging(elem) {
+  return elem.hasClass('dragging');
+}
+
 function setPass(pass) {
   var input = $('#password');
   input.hover(function() {
-    if (input.val() == '#####') {
+    if (input.val() == '#####' && !isDragging(input.parent().parent())) {
       input.val('');
     }
     input.focus();
-  },
-  function() {
-    if (input.val() == '') {
-        input.val('#####');
+  }, function() {
+    if (input.val() == '' && !isDragging(input.parent().parent())) {
         input.blur();
+        input.val('#####');
     }
   });
   input.click(function() {
-    if (input.val() == '') {
-      input.val('');
-    }
+    input.focus();
   });
-  input.blur(function() {
-    if(input.val('')) {
-      input.val('#####');
-    }
-  });
+  // input.blur(function() {
+  //   if(input.val('')) {
+  //     console.log('#');
+  //     input.val('#####');
+  //   }
+  // });
 
+  $('body').keyup(function(event) {
+    $('#password').focus();
+    var key = event.keyCode;
+    if (key == 13) { //enter
+      if($('#password').val() == pass) {
+        $('.input').addClass('right');
+        setTimeout(function() {
+          $('.input').removeClass('right');
+        },100);
+        level += 1;
+        end = true;
+        // scatter(level);
+        $('#password').val(''); 
+      } 
+      else {
+        $('.input').addClass('wrong');
+        setTimeout(function() {
+          $('.input').removeClass('wrong');
+        },100);
+      }
+    }
+  });
 
   var numbers = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57];
   var emojis = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   $('body').keypress(function(event) {
-    $('#password').focus();
     var key = event.charCode;
     var isNumber = numbers.indexOf(key);
     if(isNumber < 0 ) {
-      if (key == 13) {
-        if($('#password').val() == pass) {
-          $('.input').addClass('right');
-          setTimeout(function() {
-            $('.input').removeClass('right');
-          },100);
-          level += 1;
-          scatter(level);
-          $('#password').val(''); 
-        } 
-        else {
-          $('.input').addClass('wrong');
-          setTimeout(function() {
-            $('.input').removeClass('wrong');
-          },100);
-        }
-      }
       event.preventDefault();
       return false;
     }
