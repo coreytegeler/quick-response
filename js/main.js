@@ -207,7 +207,7 @@ function generate(pass, bool) {
       var color = 'ff0000';
       img.src = "http://api.qrtag.net/qrcode/380/20/ff0000/"+text;
     } else {
-      $.getJSON("/ads.json", function(data) {
+      $.getJSON("../ads.json", function(data) {
         var urls = [];
         $.each(data.ads, function(key, val) {
           urls.push(val);
