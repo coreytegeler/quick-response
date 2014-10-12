@@ -21,25 +21,28 @@ function buildBox() {
   $('.box:not(:first-child)').each(function() {
     var y = $(this).prev().outerHeight() + $(this).prev().offset().top;
     $(this).css({'top':y});
-  })
+  });
 
   $('.box').draggable({
     start: function(event, ui) {
-
+      $(this).addClass('dragging');
     },
     drag: function(event, ui) {
-
+      
     },
     stop: function(event, ui) {
+      $(this).removeClass('dragging');
       checkSides(ui);
-    }
+    },
+     cancel: '.visible .close'
   });
 
-  $('.close').click(function() {
-    $(this).parent().addClass('hide');
-    $('.hide').click(function() {
-      $(this).removeClass('hide'); 
-    }); 
+  $('.close').mouseup(function() {
+    var parent = $(this).parent();
+    if(!parent.hasClass('dragging')) {
+      parent.toggleClass('hide');
+      parent.toggleClass('visible');
+    }
   });
   
 }
@@ -101,19 +104,14 @@ function raph() {
 }
 
 function scatter(level) {
-  console.log('Level: ' + level)
+    console.log('Level: ' + level);
     var pass = Math.round(Math.random() * 99999);
     console.log('Password: ' + pass);
     setPass(pass);
     var startX = Math.round(Math.random() * w());
     var startY = h();
     var particles = {},
-        particleIndex = 0,
-        settings = {
-            density: 1,
-            startingX: startX,
-            startingY: startY,
-        };
+        particleIndex = 0;
     var seedsX = [];
     var seedsY = [];
     var maxAngles = 100;
@@ -131,17 +129,16 @@ function scatter(level) {
 
     function Particle() {
         if (currentAngle !== maxAngles) {
+            this.size = 150;
             this.x = x();
-            this.y = h();
+            this.y = h()+this.size;
             this.vx = seedsX[currentAngle];
             this.vy = seedsY[currentAngle];
             currentAngle++;
             particleIndex++;
             particles[particleIndex] = this;
             this.id = particleIndex;
-            this.size = 100;
             var rand = Math.round(Math.random() * 5+level);
-            console.log(rand);
             if (rand == 1) {
                 var good = generate(pass, true);
                 this.is = good;
@@ -170,19 +167,13 @@ function scatter(level) {
             this.vx *= -1;
             this.x = right() - this.size;
         }
-        this.life++;
-
-        if (this.y <= -100) {
+        if (this.y <= -this.size) {
             delete particles[this.id];
         }
 
         var date = new Date();
         var sec = date.getSeconds();
-
-
-
         context.drawImage(this.is, this.x, this.y, this.size, this.size);
-
     }
 
     setInterval(function() {
@@ -204,8 +195,9 @@ function generate(pass, bool) {
     var img = new Image;
     if (bool == true) {
       var text = 'Type ' + pass + ' in the text field to move to the next level.';
-      var color = 'ff0000';
-      img.src = "http://api.qrtag.net/qrcode/380/20/ff0000/"+text;
+      var colors = ['FF0000','00FF00', '0000FF'];
+      var color = colors[(Math.round(Math.random(colors.length)))+1];
+      img.src = "http://api.qrtag.net/qrcode/150/0/"+color+"/"+text;
     } else {
       $.getJSON("ads.json", function(data) {
         var urls = [];
@@ -215,13 +207,10 @@ function generate(pass, bool) {
        var index = Math.round(Math.random()*(urls.length-1));
        var url = urls[index].url;
        var color = '000000';
-       img.src = 'https://chart.googleapis.com/chart?chs=547x547&cht=qr&chl=' + url + '&chld=L|1&choe=UTF-8';
+       img.src = "http://api.qrtag.net/qrcode/150/0/"+url;
       });
-      img.crossOrigin = 'http://profile.ak.fbcdn.net/crossdomain.xml';
+      // img.crossOrigin = 'http://profile.ak.fbcdn.net/crossdomain.xml';
     }
-    
-    // img.src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example';
-
     return img;
 }
 function w() {
