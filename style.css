@@ -293,12 +293,13 @@ canvas {
     -ms-interpolation-mode: nearest-neighbor;
     display: none;
 }
-
+.mobile #begin {
+	display: none;
+}
 #mobile {
 	display: none;
 	font-family: 'Karla', sans-serif;
 }
-
 .mobile #mobile  {
 	display: table-cell;
 	vertical-align: middle;
