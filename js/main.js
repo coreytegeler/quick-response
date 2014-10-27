@@ -105,7 +105,7 @@ function checkSides(ui) {
 }
 
 function stretchCanvas() {
-    $('body').attr('class', 'game scatter');
+    $('body').attr('class', 'game');
     canvas = document.createElement("canvas");
     context = canvas.getContext("2d");
     canvas.width = w();
@@ -127,12 +127,6 @@ function onResize() {
     });
     center();
 }
-
-function raph() {
-    var paper = Raphael(0, 0, 70, 70);
-    var t = paper.rect(0, 0, 70, 10);
-    t.attr('fill', 'white');
-}
 var end = false;
 
 function scatter(level) {
@@ -141,8 +135,8 @@ function scatter(level) {
     console.log('Password: ' + pass);
     setPass(pass);
     var startX = Math.round(Math.random() * w());
-    var startY = h();
-    var particles = {},
+    var startY = h()+500;
+    var qrs = {},
         particleIndex = 0;
     var seedsX = [];
     var seedsY = [];
@@ -159,8 +153,8 @@ function scatter(level) {
     }
     seedAngles();
 
-    function Particle() {
-        // if(end==false) {
+    function QR() {
+        if(end==false) {
             if (currentAngle !== maxAngles) {
                 this.size = 150;
                 this.x = x();
@@ -169,7 +163,7 @@ function scatter(level) {
                 this.vy = seedsY[currentAngle];
                 currentAngle++;
                 particleIndex++;
-                particles[particleIndex] = this;
+                qrs[particleIndex] = this;
                 this.id = particleIndex;
                 var rand = Math.round(Math.random() * 5 + level);
                 if (rand == 1) {
@@ -183,29 +177,25 @@ function scatter(level) {
                 seedAngles();
                 currentAngle = 0;
             }
-        // }
+        }
     }
-    Particle.prototype.draw = function(i) {
+    QR.prototype.draw = function(i) {
         this.x += this.vx;
         this.y += this.vy;
         if (end == true) {
             rise += .2;
             this.y += this.vy + rise;
-             if ((this.y) > bottom()) {
-                delete particles[this.id];
-                for (var i in particles) {
-                    console.log(i);
-                } 
-             }
-
+            
         } else {
             rise = 0;
         }
-
         if ((this.y + this.size) > bottom()) {
             this.vy *= -0.6;
             this.vx *= 0.75;
             this.y = bottom() - this.size;
+            if(end==true) {
+                delete qrs[this.id];
+            }
         }
         if (this.x - this.size <= left()) {
             this.vx *= -1;
@@ -216,7 +206,7 @@ function scatter(level) {
             this.x = right() - this.size;
         }
         if (this.y <= -this.size) {
-            delete particles[this.id];
+            delete qrs[this.id];
         }
         var date = new Date();
         var sec = date.getSeconds();
@@ -226,13 +216,13 @@ function scatter(level) {
     setInterval(function() {
         context.fillStyle = "#fff";
         context.fillRect(0, 0, canvas.width, canvas.height);
-        for (var i in particles) {
-            particles[i].draw(i);
+        for (var i in qrs) {
+            qrs[i].draw(i);
         }
     }, 30);
 
     setInterval(function() {
-        new Particle();
+        new QR();
     }, (400 - (level * 10)));
 }
 
@@ -323,12 +313,12 @@ function setPass(pass) {
         if (key == 13) { //enter
             if ($('#password').val() == pass) {
                 $('.input').addClass('right');
-                level += 1;
                 end = true;
                 setTimeout(function() {
-                    // scatter(level);
                     $('.input').removeClass('right');
-                }, 100);
+                    level += 1;
+                    end = false;
+                }, 5000);
                 
                 $('#password').val('');
             } else {
