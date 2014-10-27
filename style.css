@@ -19,7 +19,6 @@ html {
     -ms-user-select: none;
     user-select: none;
 }
-}
 body {
 	margin: 0;
 	height: 100%;
@@ -292,6 +291,29 @@ canvas {
     image-rendering: pixelated;
     -ms-interpolation-mode: nearest-neighbor;
     display: none;
+}
+.levelTxt {
+	position: absolute;
+	z-index: 99999999999;
+	width: 100%;
+	height:80px;
+	top: calc(50% - 40px);
+	top: -o-calc(50% - 40px);
+	top: -moz-calc(50% - 40px);
+	top: -webkit-calc(50% - 40px);
+	left: 0;
+	display: table;
+	opacity: 0;
+}
+.levelTxt h1 {
+	display: table-cell;
+	vertical-align: middle;
+	font-family: 'Karla', sans-serif;
+	font-size: 80px;
+	text-align: center;
+}
+.levelTxt h1 .number {
+
 }
 .mobile #begin {
 	display: none;

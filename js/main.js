@@ -26,6 +26,7 @@ function init() {
             'opacity': 1
         });
         $('#begin').click(function(e) {
+            showLevel();
             buildBox();
             stretchCanvas();
             scatter(level);
@@ -34,6 +35,8 @@ function init() {
             }, 400);
         });
     }
+
+    $('.levelTxt').css({y:h()});
 }
 
 function buildBox() {
@@ -127,13 +130,14 @@ function onResize() {
     });
     center();
 }
-var end = false;
-
+function newPass() {
+    return Math.round(Math.random() * 99999);
+}
 function scatter(level) {
     console.log('Level: ' + level);
-    var pass = Math.round(Math.random() * 99999);
+    pass = newPass();
     console.log('Password: ' + pass);
-    setPass(pass);
+    setPass();
     var startX = Math.round(Math.random() * w());
     var startY = h()+500;
     var qrs = {},
@@ -142,6 +146,9 @@ function scatter(level) {
     var seedsY = [];
     var maxAngles = 100;
     var currentAngle = 0;
+    setInterval(function() {
+        new QR();
+    }, (400 - (level * 10)));
 
     function seedAngles() {
         seedsX = [];
@@ -220,10 +227,6 @@ function scatter(level) {
             qrs[i].draw(i);
         }
     }, 30);
-
-    setInterval(function() {
-        new QR();
-    }, (400 - (level * 10)));
 }
 
 function generate(pass, bool) {
@@ -291,7 +294,7 @@ function isDragging(elem) {
     return elem.hasClass('dragging');
 }
 
-function setPass(pass) {
+function setPass() {
     var input = $('#password');
     input.hover(function() {
         if (input.val() == '#####' && !isDragging(input.parent().parent())) {
@@ -318,7 +321,9 @@ function setPass(pass) {
                     $('.input').removeClass('right');
                     level += 1;
                     end = false;
-                }, 5000);
+                    pass = newPass();
+                    showLevel();
+                }, 2000);
                 
                 $('#password').val('');
             } else {
@@ -331,7 +336,6 @@ function setPass(pass) {
     });
 
     var numbers = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57];
-    var emojis = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     $('body').keypress(function(event) {
         var key = event.charCode;
         var isNumber = numbers.indexOf(key);
@@ -341,3 +345,11 @@ function setPass(pass) {
         }
     });
 }
+
+function showLevel() {
+    $('.levelTxt .number').html(level);
+    $('.levelTxt').css({opacity:1,y:h()}).transition({y:0},400,'easeOutExpo').transition({y:-h()},1400,'easeInExpo');
+}
+
+
+
