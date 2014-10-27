@@ -2,7 +2,7 @@ window.onload = function() {
     center();
     init();
 }
-
+end = false;
 function init() {
     var apple = /ipad|iphone|ipod/i.test(navigator.userAgent.toLowerCase());
     var android = /android/i.test(navigator.userAgent.toLowerCase());
@@ -160,42 +160,58 @@ function scatter(level) {
     seedAngles();
 
     function Particle() {
-        if (currentAngle !== maxAngles) {
-            this.size = 150;
-            this.x = x();
-            this.y = h() + this.size;
-            this.vx = seedsX[currentAngle];
-            this.vy = seedsY[currentAngle];
-            currentAngle++;
-            particleIndex++;
-            particles[particleIndex] = this;
-            this.id = particleIndex;
-            var rand = Math.round(Math.random() * 5 + level);
-            if (rand == 1) {
-                var good = generate(pass, true);
-                this.is = good;
+        // if(end==false) {
+            if (currentAngle !== maxAngles) {
+                this.size = 150;
+                this.x = x();
+                this.y = h() + this.size;
+                this.vx = seedsX[currentAngle];
+                this.vy = seedsY[currentAngle];
+                currentAngle++;
+                particleIndex++;
+                particles[particleIndex] = this;
+                this.id = particleIndex;
+                var rand = Math.round(Math.random() * 5 + level);
+                if (rand == 1) {
+                    var good = generate(pass, true);
+                    this.is = good;
+                } else {
+                    var bad = generate(pass, false);
+                    this.is = bad;
+                }
             } else {
-                var bad = generate(pass, false);
-                this.is = bad;
+                seedAngles();
+                currentAngle = 0;
             }
-        } else {
-            seedAngles();
-            currentAngle = 0;
-        }
+        // }
     }
     Particle.prototype.draw = function(i) {
         this.x += this.vx;
         this.y += this.vy;
+        if (end == true) {
+            rise += .2;
+            this.y += this.vy + rise;
+             if ((this.y) > bottom()) {
+                delete particles[this.id];
+                for (var i in particles) {
+                    console.log(i);
+                } 
+             }
+
+        } else {
+            rise = 0;
+        }
+
         if ((this.y + this.size) > bottom()) {
             this.vy *= -0.6;
             this.vx *= 0.75;
             this.y = bottom() - this.size;
         }
-        if (this.x - (this.size) <= left()) {
+        if (this.x - this.size <= left()) {
             this.vx *= -1;
             this.x = left() + (this.size);
         }
-        if (this.x + (this.size) >= right()) {
+        if (this.x + this.size >= right()) {
             this.vx *= -1;
             this.x = right() - this.size;
         }
@@ -259,15 +275,15 @@ function y() {
 }
 
 function left() {
-    return (-110);
+    return (-150);
 }
 
 function right() {
-    return (w() + 10);
+    return (w());
 }
 
 function bottom() {
-    return (h() + 200);
+    return (h() + 150);
 }
 
 function center() {
@@ -307,11 +323,13 @@ function setPass(pass) {
         if (key == 13) { //enter
             if ($('#password').val() == pass) {
                 $('.input').addClass('right');
-                setTimeout(function() {
-                    $('.input').removeClass('right');
-                }, 100);
                 level += 1;
                 end = true;
+                setTimeout(function() {
+                    // scatter(level);
+                    $('.input').removeClass('right');
+                }, 100);
+                
                 $('#password').val('');
             } else {
                 $('.input').addClass('wrong');
