@@ -1,5 +1,7 @@
 window.onload = function() {
     center();
+    stretchCanvas('home');
+    fragment();
     init();
 }
 end = false;
@@ -28,7 +30,8 @@ function init() {
         $('#begin').click(function(e) {
             showLevel();
             buildBox();
-            stretchCanvas();
+            stretchCanvas('game');
+            $('body').addClass('game');
             scatter(level);
             setTimeout(function() {
                 $('canvas').fadeIn(100);
@@ -37,6 +40,17 @@ function init() {
     }
 
     $('.levelTxt').css({y:h()});
+}
+
+function fragment() {
+    for(var i=0; i < 30; i++) {
+        var index = i + 1;
+        if (index<10) {
+            index = '0'+index;
+        }
+        var path = 'img/fragments/fragments-'+index+'.jpg';
+        console.log(path);
+    }
 }
 
 function buildBox() {
@@ -107,14 +121,13 @@ function checkSides(ui) {
     }
 }
 
-function stretchCanvas() {
-    $('body').attr('class', 'game');
+function stretchCanvas(name) {
     canvas = document.createElement("canvas");
     context = canvas.getContext("2d");
     canvas.width = w();
     canvas.height = h();
     document.body.appendChild(canvas);
-
+    $('canvas').addClass(name);
     var timer;
     window.onresize = function() {
         timer && clearTimeout(timer);
@@ -174,10 +187,10 @@ function scatter(level) {
                 this.id = particleIndex;
                 var rand = Math.round(Math.random() * 5 + level);
                 if (rand == 1) {
-                    var good = generate(pass, true);
+                    var good = create(pass, true);
                     this.is = good;
                 } else {
-                    var bad = generate(pass, false);
+                    var bad = create(pass, false);
                     this.is = bad;
                 }
             } else {
@@ -229,7 +242,7 @@ function scatter(level) {
     }, 30);
 }
 
-function generate(pass, bool) {
+function create(pass, bool) {
     var img = new Image;
     if (bool == true) {
         var text = 'Type ' + pass + ' in the text field to move to the next level.';

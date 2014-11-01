@@ -29,7 +29,7 @@ body {
 	margin: auto;
 }
 .start #front {
-	background: white;
+	background: black;
 	opacity: 1;
 	z-index: 999;
 	display: table;
@@ -53,7 +53,7 @@ body {
 .start #front .title .box {
 	display: table;
 	margin: auto;
-	border: 5px solid black;
+	border: 5px solid white;
 	padding: 10px;
 	opacity: 0;
 }
@@ -61,7 +61,7 @@ body {
 	width: 100%;
 	font-size: 20px;
 	line-height: 36px;
-	color:black;
+	color:white;
 	font-weight: 700;
 	text-align: center;
 	margin: 0;
@@ -290,7 +290,10 @@ canvas {
     image-rendering: -o-crisp-edges;
     image-rendering: pixelated;
     -ms-interpolation-mode: nearest-neighbor;
-    display: none;
+    
+}
+.game canvas {
+	display: none;
 }
 .levelTxt {
 	position: absolute;
