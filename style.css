@@ -28,7 +28,7 @@ body {
 	display: table;
 	margin: auto;
 }
-.start #front {
+#front {
 	opacity: 1;
 	z-index: 999;
 	height: 100%;
@@ -37,13 +37,11 @@ body {
 	position: absolute;
 	top: 0;
 	left: 0;
+	background: black;
 }
 
 .title {
 	font-family: 'Inconsolata', sans-serif;
-}
-.start {
-
 }
 .start #front .title {
 	width: 100%;
@@ -315,7 +313,7 @@ canvas {
     -ms-interpolation-mode: nearest-neighbor;
     
 }
-.game canvas {
+.start canvas {
 	display: none;
 }
 .levelTxt {

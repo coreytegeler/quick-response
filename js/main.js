@@ -1,5 +1,4 @@
 window.onload = function() {
-    stretchCanvas('home');
     init();
 }
 end = false;
@@ -22,19 +21,18 @@ function init() {
         $('.device').text('Windows');
     } else {
         level = 1;
-        var rotate = randRotate();
-        console.log(rotate);
-        $('#front .logo').css({opacity:1,y:h(),rotate3d:rotate});
+        $('#front .logo').css({opacity:1,y:h(),rotate3d:randRotate()});
         setTimeout(function() {
             $('#front .logo').addClass('center');
         },1);
         $('#begin').click(function(e) {
-            showLevel();
-            buildBox();
-            // $('canvas').fadeOut(100);
-            $('#front .title .logo')
-            stretchCanvas('game');
-            $('body').addClass('game');
+            $('#front .title').transition({y:-h(),rotate3d:randRotate()},1000, 'cubic-bezier(.41,.73,.2,1)');
+            $('#front').transition({y:-w()*2,rotate3d:randRotate(),delay:400},1800, 'cubic-bezier(.41,.73,.2,1)');
+            setTimeout(function() {
+                stretchCanvas('game');
+                showLevel();
+                buildBox();
+            },1000);
         });
     }
 
@@ -147,13 +145,14 @@ function stretchCanvas(name) {
     canvas.width = w();
     canvas.height = h();
     document.body.appendChild(canvas);
-    $('canvas').addClass(name);
+    $(canvas).addClass(name);
+    $('body').attr('class',name);
     var timer;
     window.onresize = function() {
         timer && clearTimeout(timer);
         timer = setTimeout(onResize, 100);
     }
-    if(name == 'home') {
+    if(name == 'start') {
         fragment();
     } else if(name == 'game') {
         scatter(level);
