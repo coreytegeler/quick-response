@@ -1,7 +1,5 @@
 window.onload = function() {
-    center();
     stretchCanvas('home');
-    fragment();
     init();
 }
 end = false;
@@ -24,22 +22,32 @@ function init() {
         $('.device').text('Windows');
     } else {
         level = 1;
-        $('#front .box').transition({
-            'opacity': 1
-        });
+        var rotate = randRotate();
+        console.log(rotate);
+        $('#front .logo').css({opacity:1,y:h(),rotate3d:rotate});
+        setTimeout(function() {
+            $('#front .logo').addClass('center');
+        },1);
         $('#begin').click(function(e) {
             showLevel();
             buildBox();
+            // $('canvas').fadeOut(100);
+            $('#front .title .logo')
             stretchCanvas('game');
             $('body').addClass('game');
-            scatter(level);
-            setTimeout(function() {
-                $('canvas').fadeIn(100);
-            }, 400);
         });
     }
 
     $('.levelTxt').css({y:h()});
+}
+
+function randRotate() {
+    var randX=Math.random()*(360)-180+', ';
+    var randY=Math.random()*(360)-180+', ';
+    var randZ=Math.random()*(360)-180+', ';
+    var randA=Math.random()*(360)-180+'deg';
+    var rotate = randX+randY+randZ+randA;
+    return rotate;
 }
 
 function fragment() {
@@ -48,8 +56,17 @@ function fragment() {
         if (index<10) {
             index = '0'+index;
         }
-        var path = 'img/fragments/fragments-'+index+'.jpg';
-        console.log(path);
+        var shape = new Image;
+        var path = 'img/fragments/fragments-'+index+'.svg';
+        shape.src = path;
+        shape.width = 100;
+        shape.height = 100;
+        var x = Math.random() * (w() - 0) + 1;
+        var y = Math.random() * (h() - 0) + 1;
+        context.rect(0,0,w(),h());
+        context.fillStyle="black";
+        context.fill();
+        context.drawImage(shape, w(), h(), shape.width, shape.height);
     }
 }
 
@@ -60,7 +77,10 @@ function buildBox() {
             'top': y
         });
     });
-
+    $('.box').each(function() {
+        var rotate = randRotate();
+        $(this).css({x:-500, rotate3d:rotate});
+    });
     $('.box').draggable({
         start: function(event, ui) {
             $(this).addClass('dragging');
@@ -133,6 +153,11 @@ function stretchCanvas(name) {
         timer && clearTimeout(timer);
         timer = setTimeout(onResize, 100);
     }
+    if(name == 'home') {
+        fragment();
+    } else if(name == 'game') {
+        scatter(level);
+    }
 }
 
 function onResize() {
@@ -141,7 +166,6 @@ function onResize() {
     $('.box').each(function() {
         checkSides($(this));
     });
-    center();
 }
 function newPass() {
     return Math.round(Math.random() * 99999);
@@ -290,17 +314,6 @@ function right() {
 
 function bottom() {
     return (h() + 150);
-}
-
-function center() {
-    if ($('.center').hasClass('top')) {
-        var top = 0;
-    } else {
-        var top = h() / 2 - $('.center').height() / 2;
-    }
-    $('.center').css({
-        'top': top
-    });
 }
 
 function isDragging(elem) {
