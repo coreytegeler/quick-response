@@ -27,12 +27,17 @@ function init() {
         },1);
         $('#begin').click(function(e) {
             $('#front .title').transition({y:-h(),rotate3d:randRotate()},1000, 'cubic-bezier(.41,.73,.2,1)');
-            $('#front').transition({y:-w()*2,rotate3d:randRotate(),delay:400},1800, 'cubic-bezier(.41,.73,.2,1)');
+            $('#front').transition({y:-h()*2,delay:400},400, 'in');
             setTimeout(function() {
+                buildBox();
                 stretchCanvas('game');
                 showLevel();
-                buildBox();
-            },1000);
+                $('.box').each(function(i) {
+                    setTimeout(function() {
+                        $('.box:eq('+i+')').transition({x:0,rotate3d:'0,0,0,0deg'},500, 'cubic-bezier(.41,.73,.2,1)');
+                    },100*i);
+                });
+            },800);
         });
     }
 
@@ -184,7 +189,7 @@ function scatter(level) {
     var currentAngle = 0;
     setInterval(function() {
         new QR();
-    }, (400 - (level * 10)));
+    }, 1000);
 
     function seedAngles() {
         seedsX = [];
@@ -200,8 +205,8 @@ function scatter(level) {
         if(end==false) {
             if (currentAngle !== maxAngles) {
                 this.size = 150;
-                this.x = x();
-                this.y = h() + this.size;
+                this.x = Math.round(Math.random() * w());
+                this.y = h()*2;
                 this.vx = seedsX[currentAngle];
                 this.vy = seedsY[currentAngle];
                 currentAngle++;
