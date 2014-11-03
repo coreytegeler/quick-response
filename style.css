@@ -53,6 +53,7 @@ body {
 .title .logo {
 	display: block;
 	border: 5px solid;
+	background:black;
 	padding: 5px 10px 10px 10px;
 	font-weight: 700;
 	text-align: justify;
@@ -113,17 +114,20 @@ body {
 #begin:hover {
 	cursor: pointer;
 }
-.start #front img {
-	width: 20px;
-	display: table;
-	margin: 40px auto 0 auto;
-}
 .start #front .title.top img{
 	display: none;
 	
 }
 .start #front img:hover {
 	cursor: pointer;
+}
+img.fragment {
+	position: absolute;
+	width: 80px;
+	opacity: 0;
+	z-index: -1;
+	top: 100%;
+	left:0px;
 }
 header  {
 	z-index: 9999;
@@ -305,7 +309,7 @@ canvas {
     
 }
 .start canvas {
-	display: none;
+	/*display: none;*/
 }
 .levelTxt {
 	position: absolute;

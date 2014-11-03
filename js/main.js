@@ -25,6 +25,13 @@ function init() {
         setTimeout(function() {
             $('#front .logo').addClass('center');
         },1);
+        $('.fragment').each(function(i) {
+            var i = i+1
+            var fragments = $('.fragment').length;
+            var x = Math.random()*w();
+            var y = Math.random()*h()*-1;
+            $(this).css({x:x,opacity:1,y:h(),rotate3d:randRotate()}).transition({y:y,rotate3d:'0,0,0,0deg'});
+        });
         $('#begin').click(function(e) {
             $('#front .title').transition({y:-h(),rotate3d:randRotate()},1000, 'cubic-bezier(.41,.73,.2,1)');
             $('#front').transition({y:-h()*2,delay:400},400, 'in');
@@ -69,8 +76,7 @@ function fragment() {
         context.rect(0,0,w(),h());
         context.fillStyle="black";
         context.fill();
-        // context.rotate('50deg');
-        // context.drawImage(shape, w(), h(), shape.width, shape.height);
+        context.drawImage(shape, w(), h(), shape.width, shape.height);
     }
 }
 
