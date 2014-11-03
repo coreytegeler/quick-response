@@ -69,7 +69,8 @@ function fragment() {
         context.rect(0,0,w(),h());
         context.fillStyle="black";
         context.fill();
-        context.drawImage(shape, w(), h(), shape.width, shape.height);
+        // context.rotate('50deg');
+        // context.drawImage(shape, w(), h(), shape.width, shape.height);
     }
 }
 
@@ -378,7 +379,7 @@ function setPass() {
 
 function showLevel() {
     $('.levelTxt .number').html(level);
-    $('.levelTxt').css({opacity:1,y:h()}).transition({y:0},400,'easeOutExpo').transition({y:-h()},1400,'easeInExpo');
+    $('.levelTxt').css({opacity:1,y:h(),rotate3d:randRotate()}).transition({y:0,rotate3d:'0,0,0,0deg'},400,'easeOutExpo').transition({y:-h(),rotate3d:randRotate()},1400,'easeInExpo');
 }
 
 
