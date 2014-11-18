@@ -219,6 +219,7 @@ header .title .logo {
 	border:none;
 	font-size: 38px;
 	line-height: 39px;
+	background: white;
 }
 header .title h1:nth-child(1) {
 	letter-spacing: 15px;
