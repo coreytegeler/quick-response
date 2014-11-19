@@ -282,7 +282,7 @@ function create(pass, bool) {
     if (bool == true) {
         var text = 'Type ' + pass + ' in the text field to move to the next level.';
         var colors = ['FF0000', '00FF00', '0000FF'];
-        var color = colors[(Math.round(Math.random(colors.length))) + 1];
+        var color = colors[(Math.round(Math.random(colors.length)))];
         img.src = "http://api.qrtag.net/qrcode/150/0/" + color + "/" + text;
     } else {
         $.getJSON("ads.json", function(data) {
