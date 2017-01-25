@@ -1,11 +1,12 @@
-data = null
+var data = null
+var colors = ['ff33ff','3399cc','ff6633','990099','33cc33','ff0000'];
+var end = false;
 window.onload = function() {
   $.getJSON("ads.json", function(data) {
     window.data = data;
     init(data);
   })
 }
-end = false;
 function init() {
  var apple = /ipad|iphone|ipod/i.test(navigator.userAgent.toLowerCase());
  var android = /android/i.test(navigator.userAgent.toLowerCase());
@@ -38,7 +39,9 @@ function init() {
    });
    $('#begin').click(function(e) {
      $('#front .title').transition({y:-h(),rotate3d:randRotate()},1000, 'cubic-bezier(.41,.73,.2,1)');
-     $('#front').transition({y:-h()*2,delay:400},400, 'in');
+     $('#front').transition({y:-h()*2,delay:400},400, 'in', function() {
+      $('#front').remove()
+     });
      setTimeout(function() {
        buildBox();
        stretchCanvas('game');
@@ -50,6 +53,21 @@ function init() {
        });
      },800);
    });
+
+  $color = $('.color')
+  var colorChars = $color.text().split('')
+  $color.empty()
+  var colorIndex = 0;
+  $.each(colorChars, function (i, char) {
+    var color = colors[colorIndex]
+    $color.append('<span style="color:#'+color+'">' + char + '</span>')
+    if(colorIndex < colors.length-1) {
+      colorIndex++
+    } else {
+      colorIndex = 0
+    }
+  })
+
  }
  $('.levelTxt').css({y:h()});
 }
@@ -120,35 +138,37 @@ function buildBox() {
 
 function checkSides(ui) {
   if (ui instanceof jQuery) {
-    var box = ui;
+    var $box = $(ui);
   } else {
-    var box = $(ui.helper[0]);
+    var $box = $(ui.helper[0]);
   }
-  var left = box.position().left;
-  var top = box.position().top;
-  var right = box.position().left + box.outerWidth() + 20;
-  var bottom = box.position().top + box.outerHeight() + 20;
+  var left = $box.position().left;
+  var top = $box.position().top;
+  var right = $box.position().left + $box.outerWidth() + 20;
+  var bottom = $box.position().top + $box.outerHeight() + 20;
+
+
   if (left <= 0) {
-    box.transition({
+    $box.transition({
       'left': 0
     }, 200);
   }
   if (right >= w()) {
-    box.transition({
-      'left': (
-        w() - box.outerWidth() - 20
-      )
+    $box.transition({
+      'left': w() - $box.outerWidth() - 20
     }, 400, 'easeInOutExpo');
   }
+
+
   if (top <= 0) {
-    box.transition({
+    $box.transition({
       'top': 0
     }, 200, 'easeInOutExpo');
   }
   if (bottom >= h()) {
-    box.transition({
+    $box.transition({
       'top': (
-        h() - box.outerHeight() - 20
+        h() - $box.outerHeight() - 20
       )
     }, 200, 'easeInOutExpo');
   }
@@ -187,7 +207,7 @@ function newPass() {
 function scatter(level) {
   console.log('Level: ' + level);
   pass = newPass();
-  console.log('Password: ' + pass);
+  // console.log('Password: ' + pass);
   setPass();
   var startX = Math.round(Math.random() * w());
   var startY = h()+500;
@@ -205,16 +225,9 @@ function scatter(level) {
     })
     var rand = Math.round(Math.random() * 5 + level);
     if (rand == 1) {
-      bool = true;
-    } else {
-      bool = false;
-    }
-    if (bool == true) {
-      var text = encodeURI('Type ' + pass + ' in the text field to move to the next level.');
-      var colors = ['2A9FE8', '39E510', 'E27F13'];
-      var index = (Math.round(Math.random(colors.length+1)));
-      var color = colors[index];
-      src = "https://api.qrserver.com/v1/create-qr-code/?data=" + text + "&color=" + color + "&size=150x150";
+      var text = encodeURI('Type ' + pass + ' in the input field to move to the next level');
+      var color = '000000';
+      src = 'https://api.qrserver.com/v1/create-qr-code/?data=' + text + '&color=000000&size=150x150';
       $(img).attr('src', src)
     } else {
       var urls = [];
@@ -223,7 +236,8 @@ function scatter(level) {
       });
       var index = Math.round(Math.random() * (urls.length - 1));
       var url = encodeURI(urls[index].url);
-      var color = 'ED0F24';
+      var index = Math.floor(Math.random()*colors.length);
+      var color = colors[index];
       src = "https://api.qrserver.com/v1/create-qr-code/?data=" + url + "&color=" + color + "&size=150x150";
       $(img).attr('src', src)
     }
@@ -240,55 +254,58 @@ function scatter(level) {
   seedAngles();
 
   function QR() {
+    qr = this
     if(end==false) {
       if (currentAngle !== maxAngles) {
-        this.size = 150;
-        this.x = Math.round(Math.random() * w());
-        this.y = h()*2;
-        this.vx = seedsX[currentAngle];
-        this.vy = seedsY[currentAngle];
+        qr.size = 150;
+        qr.x = Math.round(Math.random() * w());
+        qr.y = h()*2;
+        qr.vx = seedsX[currentAngle];
+        qr.vy = seedsY[currentAngle];
         currentAngle++;
         particleIndex++;
         qrs[particleIndex] = this;
-        this.id = particleIndex;
+        qr.id = particleIndex;
       } else {
         seedAngles();
         currentAngle = 0;
       }
     }
   }
+
   QR.prototype.draw = function(i) {
-    this.x += this.vx;
-    this.y += this.vy;
+    qr = this
+    qr.x += qr.vx;
+    qr.y += qr.vy;
     if (end == true) {
       rise += .2;
-      this.y += this.vy + rise;
+      qr.y += qr.vy + rise;
       
     } else {
       rise = 0;
     }
-    if ((this.y + this.size) > bottom()) {
-      this.vy *= -0.6;
-      this.vx *= 0.75;
-      this.y = bottom() - this.size;
+    if ((qr.y + qr.size) > bottom()) {
+      qr.vy *= -0.6;
+      qr.vx *= 0.75;
+      qr.y = bottom() - qr.size;
       if(end==true) {
-        delete qrs[this.id];
+        delete qrs[qr.id];
       }
     }
-    if (this.x - this.size <= left()) {
-      this.vx *= -1;
-      this.x = left() + (this.size);
+    if (qr.x - qr.size <= left()) {
+      qr.vx *= -1;
+      qr.x = left() + (qr.size);
     }
-    if (this.x + this.size >= right()) {
-      this.vx *= -1;
-      this.x = right() - this.size;
+    if (qr.x + qr.size >= right()) {
+      qr.vx *= -1;
+      qr.x = right() - qr.size;
     }
-    if (this.y <= -this.size) {
-      delete qrs[this.id];
+    if (qr.y <= -qr.size) {
+      delete qrs[qr.id];
     }
     var date = new Date();
     var sec = date.getSeconds();
-    context.drawImage(this.is, this.x, this.y, this.size, this.size);
+    context.drawImage(qr.is, qr.x, qr.y, qr.size, qr.size);
   }
 
   setInterval(function() {

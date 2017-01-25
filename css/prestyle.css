@@ -91,25 +91,19 @@ body.start #front img {
     top: 100%;
     left: 0px; }
 
-body.game .title .logo.center {
-  transition: all 650ms cubic-bezier(0.41, 0.73, 0.2, 1) !important; }
-body.game header {
-  opacity: 1; }
-  body.game header .box {
-    transform: translate(0) rotate3d(0) !important; }
-
-header {
+aside {
   z-index: 9999;
   position: absolute;
   top: 0px !important;
-  left: 0px;
+  left: 0;
   display: block;
   opacity: 0;
   width: 250px;
   height: 100%;
+  pointer-events: none;
   -webkit-perspective: 250px;
   -webkit-perspective-origin: 50% 80%; }
-  header .box {
+  aside .box {
     width: 200px;
     display: block;
     background: white;
@@ -120,22 +114,22 @@ header {
     background-repeat: no-repeat !important;
     background-size: 40% !important;
     position: fixed; }
-    header .box:hover {
+    aside .box:hover {
       cursor: move; }
-    header .box.hide {
+    aside .box.hide {
       width: 0;
       height: 0;
       border: 0;
       margin: 14px;
       padding: 0;
       background: transparent; }
-      header .box.hide .content {
+      aside .box.hide .content {
         display: none; }
-      header .box.hide .close {
+      aside .box.hide .close {
         transform: rotate(45deg); }
-        header .box.hide .close:hover {
+        aside .box.hide .close:hover {
           cursor: move; }
-  header .close {
+  aside .close {
     opacity: 1;
     position: absolute;
     top: -8px;
@@ -150,9 +144,9 @@ header {
     background-position: center;
     background-repeat: no-repeat;
     transition: all 100ms ease-in-out; }
-    header .close:hover {
+    aside .close:hover {
       cursor: pointer; }
-  header .title .logo {
+  aside .title .logo {
     height: 200px;
     padding: 0 5px;
     color: black;
@@ -160,32 +154,32 @@ header {
     font-size: 38px;
     line-height: 39px;
     background: white; }
-  header .title h1:nth-child(1) {
+  aside .title h1:nth-child(1) {
     letter-spacing: 15px; }
-  header .title h1:nth-child(2) {
+  aside .title h1:nth-child(2) {
     letter-spacing: 15px; }
-  header .title h1:nth-child(3) {
+  aside .title h1:nth-child(3) {
     letter-spacing: 19px; }
-  header .title h1:nth-child(4) {
+  aside .title h1:nth-child(4) {
     letter-spacing: 25px; }
-  header .title h1:nth-child(5) {
+  aside .title h1:nth-child(5) {
     letter-spacing: 8px; }
-  header .instructions {
+  aside .instructions {
     font-family: 'Karla'; }
-    header .instructions ul {
+    aside .instructions ul {
       list-style: none;
       padding: 0;
       margin: 0; }
-      header .instructions ul li {
+      aside .instructions ul li {
         margin-bottom: 8px;
         font-weight: 700;
         font-size: 19px; }
-        header .instructions ul li a {
+        aside .instructions ul li a {
           color: black;
           font-style: underline; }
-          header .instructions ul li a:hover {
+          aside .instructions ul li a:hover {
             cursor: help; }
-        header .instructions ul li:last-child {
+        aside .instructions ul li:last-child {
           margin: 0; }
 
 .input.box {
@@ -252,6 +246,31 @@ canvas {
   font-family: 'Karla', sans-serif;
   font-size: 80px;
   text-align: center; }
+
+footer {
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+  z-index: 9998;
+  font-size: 14px;
+  font-family: 'Inconsolata', sans-serif;
+  color: white;
+  transition: all 650ms cubic-bezier(0.41, 0.73, 0.2, 1) !important; }
+  footer a {
+    transition: all 650ms cubic-bezier(0.41, 0.73, 0.2, 1) !important;
+    color: white; }
+
+body.game .title .logo.center {
+  transition: all 650ms cubic-bezier(0.41, 0.73, 0.2, 1) !important; }
+body.game aside {
+  opacity: 1;
+  pointer-events: all; }
+  body.game aside .box {
+    transform: translate(0) rotate3d(0) !important; }
+body.game footer {
+  color: black; }
+  body.game footer a {
+    color: black; }
 
 #mobile {
   display: none;

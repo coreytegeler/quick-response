@@ -1,7 +1,7 @@
 {
   "name": "quick-response",
   "version": "1.0.0",
-  "description": "Are You Quicker Than A Quick Response",
+  "description": "Are You Quicker Than A Quick Response?",
   "scripts": {
     "sass": "sass -w sass/style.scss:css/prestyle.css",
     "prefix" : "postcss -w -u autoprefixer css/prestyle.css -o css/style.css",

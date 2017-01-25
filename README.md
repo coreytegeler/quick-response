@@ -1,5 +1,7 @@
-Are You Quicker Than A Quick Response
+Are You Quicker Than A Quick Response?
 =============================
-Browser based experiment using a smart phone with a QR reader as an external "controller" creating communication between the two devices. 
+Browser-based game using a QR reading smartphone as an external "controller."
 
-The premise is taken from first person shooters, in such that the player must only aim at the multi-colored codes to advance to the next level, while avoiding the advertisement codes that swarm the browser window.
+Modeled on first-person shooting video games, the player must only aim the QR reader at the multicolored QRs to advance to the next level, while avoiding the advertisement codes in black that swarm the browser window.
+
+Good luck.
