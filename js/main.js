@@ -1,5 +1,5 @@
 var data = null
-var colors = ['ff33ff','3399cc','ff6633','990099','33cc33','ff0000'];
+var colors = ['ff33ff','3399cc','ff6633','b619cc','33cc33','ff0000'];
 var end = false;
 window.onload = function() {
   $.getJSON("ads.json", function(data) {
