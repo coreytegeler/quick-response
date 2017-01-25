@@ -1,0 +1,25 @@
+{
+  "name": "quick-response",
+  "version": "1.0.0",
+  "description": "Are You Quicker Than A Quick Response",
+  "scripts": {
+    "sass": "sass -w sass/style.scss:css/prestyle.css",
+    "prefix" : "postcss -w -u autoprefixer css/prestyle.css -o css/style.css",
+    "go": "npm run sass & npm run prefix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/coreytegeler/quick-response.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/coreytegeler/quick-response/issues"
+  },
+  "homepage": "https://github.com/coreytegeler/quick-response#readme",
+  "dependencies": {
+    "node-sass": "^4.1.1",
+    "autoprefixer": "6.6.1",
+    "cssnano": "^3.8.0"
+  }
+}
